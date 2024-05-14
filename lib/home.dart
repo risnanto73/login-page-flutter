@@ -1,113 +1,192 @@
 import 'package:flutter/material.dart';
-import 'package:project_flutter/kartu.dart';
-import 'package:project_flutter/destination.dart';
-import 'package:project_flutter/kartu_ewallet.dart';
+import 'package:flutter/widgets.dart';
 
-class Home extends StatelessWidget{
+class Home extends StatefulWidget {
+  String title;
+  Home({super.key, required this.title});
+
   @override
-  Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
-        title: const Text('Home App', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-        leading: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 18,),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  List<Color> listOfolors = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.yellow,
+    Colors.purple,
+  ];
+
+  int _currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Icon(Icons.notifications_none_outlined),
-                    const Text('Explore', style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20
-                    ),),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey.shade300
-                      ),
-                      child: const Icon(Icons.image_outlined),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Default', style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18
-                    ),),
-                    Icon(Icons.arrow_forward_ios_outlined)
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      for (var kartu = 0; kartu < 5; kartu++) const Kartu()
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 50,),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Popular Destionation', style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18
-                    ),),
-                    Icon(Icons.arrow_forward_ios_outlined)
-                  ],
-                ),
-              ),
-              const SizedBox(height: 30,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      for (var cardDestination = 0; cardDestination < 5; cardDestination++) const CardDestination(),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30,),
-              const Padding(
-                padding: EdgeInsets.only(left: 30, right: 30, bottom: 20),
-                child: KartuEwallet(),
-              )
+              _appBar(),
+              _slideImage(),
+              _indicator(),
             ],
           ),
-        )
-      )
+        ),
+      ),
     );
   }
+}
+
+_indicator() {
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: Colors.red,
+          ),
+        ),
+        Container(
+          width: 10,
+          height: 10,
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.grey,
+          ),
+        ),
+        Container(
+          width: 10,
+          height: 10,
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.grey,
+          ),
+        ),
+        Container(
+          width: 10,
+          height: 10,
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.grey,
+          ),
+        ),
+        Container(
+          width: 10,
+          height: 10,
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.grey,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+_slideImage() {
+  return Container(
+    height: 200,
+    padding: EdgeInsets.symmetric(vertical: 10),
+    child: PageView.builder(
+      onPageChanged: (value) {
+        print(value);
+      },
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        return Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.black,
+                    Colors.black.withOpacity(0.2),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    ),
+  );
+}
+
+_appBar() {
+  // String title = 'User';
+  return Row(
+    children: [
+      CircleAvatar(
+        radius: 30,
+        backgroundImage: NetworkImage(
+            'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg'),
+      ),
+      SizedBox(
+        width: 10,
+      ),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Hello,',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              '${'User'}',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+      IconButton(
+        onPressed: () {},
+        icon: Icon(Icons.search),
+        iconSize: 30,
+      ),
+      IconButton(
+        onPressed: () {},
+        icon: Icon(Icons.notifications),
+        iconSize: 30,
+      ),
+    ],
+  );
 }

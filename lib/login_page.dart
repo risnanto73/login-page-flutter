@@ -16,7 +16,7 @@ class LoginPage extends StatelessWidget {
     signIn(BuildContext context){
       if (tePassword.text == password) {
         Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Home(),)
+          context, MaterialPageRoute(builder: (context) => Home(title: teEmail.text),)
         );
       } else {
         print('You\'re wrong');
